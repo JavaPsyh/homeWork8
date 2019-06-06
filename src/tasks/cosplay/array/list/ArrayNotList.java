@@ -1,13 +1,15 @@
 package tasks.cosplay.array.list;
 
+import java.util.Arrays;
+
 public class ArrayNotList<T> implements NotList<T> {
 
     private static final int DEFAULT_CAPACITY = 10;
-    private NotList<T>[] array;
+    private T[] array;
     private int indexForNextPut = 0;
 
     public ArrayNotList() {
-        array = (NotList<T>[]) new ArrayNotList[DEFAULT_CAPACITY];
+        array = (T[]) new Object[DEFAULT_CAPACITY];
     }
 
     public int getIndexForNextPut() {
@@ -15,8 +17,8 @@ public class ArrayNotList<T> implements NotList<T> {
     }
 
     public void arrayGrower() {
-        NotList<T>[] temp;
-        temp = (NotList<T>[]) new ArrayNotList[array.length + (array.length >> 1)];
+        T[] temp;
+        temp = (T[]) new Object[array.length + (array.length >> 1)];
         System.arraycopy(array, 0, temp, 0, array.length);
         array = temp;
     }
@@ -26,9 +28,8 @@ public class ArrayNotList<T> implements NotList<T> {
         if (indexForNextPut == array.length) {
             arrayGrower();
         }
-        array[indexForNextPut] = (NotList<T>) value;
+        array[indexForNextPut] = (T) value;
         indexForNextPut++;
-
     }
 
     @Override
@@ -36,20 +37,20 @@ public class ArrayNotList<T> implements NotList<T> {
         if (index > indexForNextPut) {
             throw new IndexOutOfBoundsException("Index Out Of Bounds");
         }
-        NotList<T>[] temp = (NotList<T>[]) new ArrayNotList[indexForNextPut - index];
+        T[] temp = (T[]) new Object[indexForNextPut - index];
         System.arraycopy(array, index, temp, 0, temp.length);
-        array[index] = (NotList<T>) value;
+        array[index] = (T) value;
         System.arraycopy(temp, 0, array, index + 1, temp.length);
         indexForNextPut++;
     }
 
     @Override
-    public void addAll(NotList<T> notList) {
-        while (indexForNextPut + notList.size() >= array.length) {
+    public void addAll(T[] notList) {
+        while (indexForNextPut + notList.length >= array.length) {
             arrayGrower();
         }
-        System.arraycopy(notList, 0, array, indexForNextPut, notList.size());
-        indexForNextPut += notList.size();
+        System.arraycopy(notList, 0, array, indexForNextPut, notList.length);
+        indexForNextPut += notList.length;
     }
 
     @Override
@@ -57,7 +58,7 @@ public class ArrayNotList<T> implements NotList<T> {
         if (index >= indexForNextPut) {
             throw new IndexOutOfBoundsException("Index Out Of Bounds");
         }
-        return (T) array[index];
+        return array[index];
     }
 
     @Override
@@ -65,7 +66,7 @@ public class ArrayNotList<T> implements NotList<T> {
         if (index >= indexForNextPut) {
             throw new IndexOutOfBoundsException("Index Out Of Bounds");
         }
-        array[index] = (NotList<T>) value;
+        array[index] = value;
     }
 
     @Override
@@ -76,7 +77,7 @@ public class ArrayNotList<T> implements NotList<T> {
         T value = null;
         for (int i = index; i < indexForNextPut; i++) {
             if (value == null) {
-                value = (T) array[i];
+                value = array[i];
             }
             array[i - 1] = array[i];
         }
@@ -89,8 +90,8 @@ public class ArrayNotList<T> implements NotList<T> {
         T value = null;
         for (int i = 0; i < indexForNextPut; i++) {
             if (value == null) {
-                if (array[i] == t) {
-                    value = (T) array[i];
+                if (array[i].equals(t)) {
+                    value = array[i];
                 }
             } else {
                 array[i - 1] = array[i];
@@ -108,5 +109,21 @@ public class ArrayNotList<T> implements NotList<T> {
     @Override
     public boolean isEmpty() {
         return getIndexForNextPut() == 0;
+    }
+
+
+    @Override
+    public String toString() {
+        return "ArrayNotList{" +
+                "array=" + Arrays.toString(array) +
+                '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        ArrayNotList<?> that = (ArrayNotList<?>) o;
+        return Arrays.equals(array, that.array);
     }
 }
