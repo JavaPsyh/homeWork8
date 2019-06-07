@@ -12,13 +12,9 @@ public class ArrayNotList<T> implements NotList<T> {
         array = (T[]) new Object[DEFAULT_CAPACITY];
     }
 
-    public int getIndexForNextPut() {
-        return indexForNextPut;
-    }
-
     public void arrayGrower() {
-        T[] temp;
-        temp = (T[]) new Object[array.length + (array.length >> 1)];
+        int tempLength = array.length + (array.length >> 1);
+        T[] temp = (T[]) new Object[tempLength];
         System.arraycopy(array, 0, temp, 0, array.length);
         array = temp;
     }
@@ -28,7 +24,7 @@ public class ArrayNotList<T> implements NotList<T> {
         if (indexForNextPut == array.length) {
             arrayGrower();
         }
-        array[indexForNextPut] = (T) value;
+        array[indexForNextPut] = value;
         indexForNextPut++;
     }
 
@@ -39,18 +35,20 @@ public class ArrayNotList<T> implements NotList<T> {
         }
         T[] temp = (T[]) new Object[indexForNextPut - index];
         System.arraycopy(array, index, temp, 0, temp.length);
-        array[index] = (T) value;
+        array[index] = value;
         System.arraycopy(temp, 0, array, index + 1, temp.length);
         indexForNextPut++;
     }
 
     @Override
-    public void addAll(T[] notList) {
-        while (indexForNextPut + notList.length >= array.length) {
+    public void addAll(NotList<T> notList) {
+        while (indexForNextPut + notList.size() >= array.length) {
             arrayGrower();
         }
-        System.arraycopy(notList, 0, array, indexForNextPut, notList.length);
-        indexForNextPut += notList.length;
+        indexForNextPut += notList.size();
+        for (int i = 0; i < notList.size(); i++) {
+            add(notList.get(i));
+        }
     }
 
     @Override
@@ -103,12 +101,12 @@ public class ArrayNotList<T> implements NotList<T> {
 
     @Override
     public int size() {
-        return getIndexForNextPut();
+        return indexForNextPut;
     }
 
     @Override
     public boolean isEmpty() {
-        return getIndexForNextPut() == 0;
+        return indexForNextPut == 0;
     }
 
 

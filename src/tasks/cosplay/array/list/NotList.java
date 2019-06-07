@@ -6,7 +6,7 @@ public interface NotList<T> {
 
     void add(T value, int index);
 
-    void addAll(T[] notList);
+    void addAll(NotList<T> notList);
 
     T get(int index);
 
@@ -19,5 +19,4 @@ public interface NotList<T> {
     int size();
 
     boolean isEmpty();
-
 }
