@@ -9,8 +9,11 @@ import tasks.cosplay.array.list.NotList;
 
 public class Application {
     public static void main(String[] args) {
-        String[] strings = new String[]{"1", "2", "3"};
-        NotList<String> notList = new ArrayNotList<String>();
+        NotList<String> notList = new ArrayNotList<>();
+        NotList<String> listTAdd = new ArrayNotList<>();
+
+        listTAdd.add("fghtff");
+        listTAdd.add("fuuuuuuu");
 
         System.out.println(notList.size());//1
         System.out.println(notList.isEmpty());//2
@@ -26,7 +29,7 @@ public class Application {
         System.out.println(notList.get(0));//4
         System.out.println();
 
-        notList.add("Fuck");
+        notList.add("Smth");
         System.out.println(notList.size());// 5
         System.out.println();
 
@@ -35,20 +38,20 @@ public class Application {
         }
         System.out.println();
 
-        notList.add("Fucking zero", 0);
-        notList.add("Fucking zero", 6);
+        notList.add("New zero", 0);
+        notList.add("New zero", 6);
         for (int i = 0; i < notList.size(); i++) {
             System.out.println(notList.get(i));//
         }
         System.out.println();
 
-        notList.addAll(strings);
+        notList.addAll(listTAdd);
         for (int i = 0; i < notList.size(); i++) {
             System.out.println(notList.get(i));
         }
         System.out.println();
 
-        notList.set("Fucking life", 1);
+        notList.set("smth else", 1);
         System.out.println(notList.get(1));
         System.out.println();
 
@@ -60,7 +63,7 @@ public class Application {
         }
         System.out.println();
 
-        System.out.println(notList.remove("Fucking zero")); // возвращаем элемент, который удалили
+        System.out.println(notList.remove("New zero")); // возвращаем элемент, который удалили
         for (int i = 0; i < notList.size(); i++) {
             System.out.println(notList.get(i));
         }
