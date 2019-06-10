@@ -92,7 +92,6 @@ public class MyArrayList<T> implements MyList<T> {
         return size == 0;
     }
 
-
     @Override
     public String toString() {
         return "MyArrayList{" +
@@ -118,4 +117,5 @@ public class MyArrayList<T> implements MyList<T> {
         if (index > size()) {
             throw new IndexOutOfBoundsException("Incorrect index: " + index);
         }
-    }}
+    }
+}
